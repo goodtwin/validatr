@@ -502,7 +502,9 @@
 
             radio: function (element) {
                 return {
-                    valid: $(document.getElementsByName(element.name)).is(':checked'),
+                    // use form context in case of extra form(s) with input that has
+                    // same name on the page.
+                    valid: $(element).closest('form').find('[name=' + element.name + ']' ).is(':checked'),
                     message: $.validatr.messages.radio
                 };
             },
@@ -771,7 +773,9 @@
 
     function validateElement(element) {
         if (element.type === 'radio') {
-            var radio = $(document.getElementsByName(element.name)).filter('[required]');
+            // use form context in case of extra form(s) with input that has
+            // same name on the page.
+            var radio = $(element).closest('form').find('[name=' + element.name + ']' ).filter('[required]');
             if (radio.length) {
                 element = radio[0];
             }
